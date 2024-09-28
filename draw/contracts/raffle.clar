@@ -53,10 +53,8 @@
 
 (define-private (generate-random-number (seed uint))
   (let (
-    (combined-value (concat (uint-to-buff 32 (var-get participant-count))
-                            (uint-to-buff 32 seed)))
-    (hash-value (sha256 combined-value))
-    (random-value (mod (buff-to-uint hash-value) (var-get participant-count)))
+    (combined-value (+ (var-get participant-count) seed block-height))
+    (random-value (mod combined-value (var-get participant-count)))
   )
     (if (is-eq random-value u0)
       u1
